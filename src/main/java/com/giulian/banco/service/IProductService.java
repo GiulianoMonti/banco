@@ -10,6 +10,9 @@ public interface IProductService {
 
     List<Product> getAllProducts();
 
-    Product updateProduct(Product product, long id) throws Exception;
+
+    // faltan todos los DTO, no llego por ahora con el tiempo
+    Product updateProduct(long id, Product product) throws Exception;
+
     Product getProductById(long id) throws Exception;
 }

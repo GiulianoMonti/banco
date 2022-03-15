@@ -27,7 +27,7 @@ public class ProductServiceImpl implements IProductService {
 
     // faltan todos los DTO, no llego por ahora con el tiempo
     @Override
-    public Product updateProduct(Product product, long id) throws Exception {
+    public Product updateProduct(long id,Product product) throws Exception {
 
         // orelsethrow exception...
         // TODO excepciones si llego con el tiempo

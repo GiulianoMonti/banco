@@ -26,7 +26,7 @@ public class ProductController {
         Product products = productService.createProduct(product);
 
 
-        return new ResponseEntity<>(products, HttpStatus.OK);
+        return new ResponseEntity<>(products, HttpStatus.CREATED);
     }
 
     @GetMapping
@@ -37,12 +37,12 @@ public class ProductController {
 
 
     @PutMapping("/{id}")
-    public ResponseEntity<Product> updatePost( @RequestBody Product product,
-                                               @PathVariable(name = "id") long id) throws Exception {
-        Product productResponse = productService.updateProduct(product, id);
+    public ResponseEntity<Product> updateProduct(@RequestBody
+                                                 @PathVariable(name = "id") long id, Product product)
+            throws Exception {
+        Product productResponse = productService.updateProduct(id, product);
         return new ResponseEntity<>(productResponse, HttpStatus.OK);
     }
-
 
 
 }
