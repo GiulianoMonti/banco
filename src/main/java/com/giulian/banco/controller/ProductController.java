@@ -36,5 +36,13 @@ public class ProductController {
     }
 
 
+    @PutMapping("/{id}")
+    public ResponseEntity<Product> updatePost( @RequestBody Product product,
+                                               @PathVariable(name = "id") long id) throws Exception {
+        Product productResponse = productService.updateProduct(product, id);
+        return new ResponseEntity<>(productResponse, HttpStatus.OK);
+    }
+
+
 
 }

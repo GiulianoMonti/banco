@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Configuration
-public class DataSeederUsers {
+public class DataSeeder {
 
 //    private static final Logger log = LoggerFactory.getLogger(DataSeederUsers.class);
 //

@@ -14,14 +14,39 @@ public class ProductServiceImpl implements IProductService {
     @Autowired
     ProductRepository productRepository;
 
-    public Product createProduct(Product product){
+    public Product createProduct(Product product) {
 
         return productRepository.save(product);
     }
 
-    public List<Product> getAllProducts(){
+    public List<Product> getAllProducts() {
         List<Product> products = productRepository.findAll();
         return products;
+    }
+
+
+    // faltan todos los DTO, no llego por ahora con el tiempo
+    @Override
+    public Product updateProduct(Product product, long id) throws Exception {
+
+        // orelsethrow exception...
+        // TODO excepciones si llego con el tiempo
+        Product productUpdated = productRepository.findById(id)
+                .orElseThrow (()->new  Exception("TODO TTODO"));
+
+        productUpdated.setName(product.getName());
+        productUpdated.setStock(product.getStock());
+        productUpdated.setPrice(product.getPrice());
+
+        return  productRepository.save(productUpdated);
+
+    }
+
+    @Override
+    public Product getProductById(long id) throws Exception {
+        Product product = productRepository.findById(id).orElseThrow(
+                () -> new Exception("TODO"));
+        return product;
     }
 
 }
