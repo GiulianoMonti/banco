@@ -19,30 +19,4 @@ import java.util.Objects;
 @Service
 public class ProductsService {
 
-    @Autowired
-    RestTemplate restTemplate;
-    @Autowired
-    ProductRepository productRepository;
-
-    @PostConstruct
-    public void populateStockPriceFromAPI() {
-
-
-        ResponseEntity<List<Product>> response = restTemplate.exchange(
-                "https://mocki.io/v1/e21989f9-f390-456c-a49a-28fa7b0033a8",
-                HttpMethod.GET,
-                null,
-                new ParameterizedTypeReference<>() {
-                });
-        List<Product> result = response.getBody();
-
-        // Save the list into a database
-        if(Objects.nonNull(result)) result.stream().filter(Objects::nonNull).
-                forEach(element -> productRepository.saveAndFlush(element));
-
-
-    }
-
-
-
 }
