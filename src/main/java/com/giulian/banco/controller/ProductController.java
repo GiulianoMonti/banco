@@ -9,8 +9,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
-@CrossOrigin
-@RestController("/products")
+import java.util.List;
+
+@RestController
+@RequestMapping("/product")
 public class ProductController {
 
     @Autowired
@@ -25,6 +27,12 @@ public class ProductController {
 
 
         return new ResponseEntity<>(products, HttpStatus.OK);
+    }
+
+    @GetMapping
+    public ResponseEntity<List<Product>> getProduct() {
+
+        return new ResponseEntity<>(productService.getAllProducts(), HttpStatus.OK);
     }
 
 
