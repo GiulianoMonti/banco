@@ -22,7 +22,7 @@ public class MockService {
     ProductRepository productRepository;
 
     @PostConstruct
-    public void populateStockPriceFromAPI() {
+    public void populateProductsFromApi() {
 
 
         ResponseEntity<List<Product>> response = restTemplate.exchange(
