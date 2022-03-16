@@ -2,6 +2,7 @@ package com.giulian.banco.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.giulian.banco.model.Product;
+import com.giulian.banco.payload.ProductDto;
 import com.giulian.banco.repository.ProductRepository;
 import com.giulian.banco.service.IProductService;
 import org.junit.jupiter.api.Test;
@@ -49,7 +50,7 @@ class ProductControllerTest {
                 .stock(10)
                 .build();
 
-        given(productService.createProduct(any(Product.class)))
+        given(productService.createProduct(any(ProductDto.class)))
                 .willAnswer((invocation) -> invocation.getArgument(0));
 
         // when -  action or the behaviour that we are going test
@@ -70,13 +71,13 @@ class ProductControllerTest {
     @Test
     void getProduct() throws Exception {
 
-        List<Product> listOfProducts = new ArrayList<>();
-        listOfProducts.add(Product.builder()
+        List<ProductDto> listOfProducts = new ArrayList<>();
+        listOfProducts.add(ProductDto.builder()
                 .name("prueba1")
                 .price(12.5)
                 .stock(1111)
                 .build());
-        listOfProducts.add(Product.builder()
+        listOfProducts.add(ProductDto.builder()
                 .name("prueba2")
                 .price(1111.5)
                 .stock(2222)
@@ -97,21 +98,21 @@ class ProductControllerTest {
     void updateProduct() throws Exception {
 
         long employeeId = 1L;
-        Product savedProduct = Product.builder()
+        ProductDto savedProduct = ProductDto.builder()
                 .id(1L)
                 .name("prueba1")
                 .price(12.5)
                 .stock(1111)
                 .build();
 
-        Product updatedProduct = Product.builder()
+        ProductDto updatedProduct = ProductDto.builder()
                 .id(2L)
                 .name("updated name")
                 .price(123.5)
                 .stock(4444)
                 .build();
 
-        when(productService.updateProduct(1L, savedProduct)).thenReturn(updatedProduct);
+        when(productService.updateProduct( savedProduct,1L)).thenReturn(updatedProduct);
 
         mockMvc.perform(put("/product/{id}", 1L)
                         .contentType(APPLICATION_JSON)

@@ -1,6 +1,7 @@
 package com.giulian.banco.controller;
 
 import com.giulian.banco.model.Product;
+import com.giulian.banco.payload.ProductDto;
 import com.giulian.banco.service.IProductService;
 import com.giulian.banco.service.IShopService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -21,26 +23,25 @@ public class ProductController {
     private RestTemplate restTemplate;
 
     @PostMapping
-    public ResponseEntity<Product> addProduct(@RequestBody Product product) {
+    public ResponseEntity<ProductDto> addProduct(@Valid @RequestBody ProductDto dto) {
 
-        Product products = productService.createProduct(product);
-
-
-        return new ResponseEntity<>(products, HttpStatus.CREATED);
+        return new ResponseEntity<>(productService.createProduct(dto), HttpStatus.CREATED);
     }
 
     @GetMapping
-    public ResponseEntity<List<Product>> getProduct() {
+    public ResponseEntity<List<ProductDto>> getProduct() {
 
         return new ResponseEntity<>(productService.getAllProducts(), HttpStatus.OK);
     }
 
 
     @PutMapping("/{id}")
-    public ResponseEntity<Product> updateProduct(@RequestBody
-                                                 @PathVariable(name = "id") long id, Product product)
+    public ResponseEntity<ProductDto> updateProduct(@RequestBody ProductDto dto,
+                                                    @PathVariable(name = "id") long id)
             throws Exception {
-        Product productResponse = productService.updateProduct(id, product);
+
+        ProductDto productResponse = productService.updateProduct(dto, id);
+
         return new ResponseEntity<>(productResponse, HttpStatus.OK);
     }
 

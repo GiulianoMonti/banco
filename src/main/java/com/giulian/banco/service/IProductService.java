@@ -1,18 +1,21 @@
 package com.giulian.banco.service;
 
 import com.giulian.banco.model.Product;
+import com.giulian.banco.payload.ProductDto;
 
 import java.util.List;
 
 public interface IProductService {
 
-    Product createProduct(Product product);
+    ProductDto createProduct(ProductDto productDto);
 
-    List<Product> getAllProducts();
+    List<ProductDto> getAllProducts();
+
+
 
 
     // faltan todos los DTO, no llego por ahora con el tiempo
-    Product updateProduct(long id, Product product) throws Exception;
+    ProductDto updateProduct(ProductDto dto, long id) throws Exception;
 
-    Product getProductById(long id) throws Exception;
+    ProductDto getProductById(long id) throws Exception;
 }

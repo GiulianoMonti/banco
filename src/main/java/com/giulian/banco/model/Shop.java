@@ -5,10 +5,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Data
@@ -24,5 +22,8 @@ public class Shop {
 
     private String code;
     private String name;
+
+    @OneToMany(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
+    private List<Product> productList;
 
 }
