@@ -5,6 +5,7 @@ import com.giulian.banco.model.Product;
 import com.giulian.banco.payload.ProductDto;
 import com.giulian.banco.repository.ProductRepository;
 import com.giulian.banco.service.IProductService;
+import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -97,16 +98,12 @@ class ProductControllerTest {
     @Test
     void updateProduct() throws Exception {
 
-        long employeeId = 1L;
         ProductDto savedProduct = ProductDto.builder()
-                .id(1L)
                 .name("prueba1")
                 .price(12.5)
                 .stock(1111)
                 .build();
-
         ProductDto updatedProduct = ProductDto.builder()
-                .id(2L)
                 .name("updated name")
                 .price(123.5)
                 .stock(4444)
@@ -116,7 +113,13 @@ class ProductControllerTest {
 
         mockMvc.perform(put("/product/{id}", 1L)
                         .contentType(APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(updatedProduct)))
+                        .content(objectMapper.writeValueAsString(savedProduct)))
+
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.name", Matchers.is(updatedProduct.getName())))
+                .andExpect(jsonPath("$.price", Matchers.is(updatedProduct.getPrice())))
+                .andExpect(jsonPath("$.stock", Matchers.is(updatedProduct.getStock())))
+
                 .andDo(print());
 
     }
