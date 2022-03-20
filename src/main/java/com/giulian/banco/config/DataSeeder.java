@@ -48,7 +48,7 @@ public class DataSeeder {
             Shop shopAux = new Shop();
             shopAux.setName(String.format(nameExample,i));
 
-            shopAux.setCode("code N "+(double) (Math.round((Math.random()+5+i))));
+            shopAux.setCode("code N "+(Math.random()+5+i));
             shopList.add(shopAux);
         }
         saveShops(shopList);

@@ -1,12 +1,12 @@
 package com.giulian.banco.controller;
 
 import com.giulian.banco.model.Role;
-import com.giulian.banco.model.User;
+import com.giulian.banco.model.Client;
 import com.giulian.banco.payload.JWTAuthResponse;
 import com.giulian.banco.payload.LoginDto;
 import com.giulian.banco.payload.SignUpDto;
 import com.giulian.banco.repository.RoleRepository;
-import com.giulian.banco.repository.UserRepository;
+import com.giulian.banco.repository.ClientRepository;
 import com.giulian.banco.security.JwtTokenProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -31,7 +31,7 @@ public class AuthController {
     private AuthenticationManager authenticationManager;
 
     @Autowired
-    private UserRepository userRepository;
+    private ClientRepository clientRepository;
 
     @Autowired
     private RoleRepository roleRepository;
@@ -47,18 +47,18 @@ public class AuthController {
 
         // add check for username exist in db
 
-        if (userRepository.existsByUsername(signUpDto.getUsername())) {
+        if (clientRepository.existsByUsername(signUpDto.getUsername())) {
             return new ResponseEntity<>("Username is already Taken!", HttpStatus.OK);
         }
 
         // add check for email exists in DB
 
-        if (userRepository.existsByEmail(signUpDto.getEmail())) {
+        if (clientRepository.existsByEmail(signUpDto.getEmail())) {
             return new ResponseEntity<>("Email is already Taken!", HttpStatus.BAD_REQUEST);
         }
         // create user object
 
-        User user = new User();
+        Client user = new Client();
         user.setName(signUpDto.getName());
         user.setUsername(signUpDto.getUsername());
         user.setEmail(signUpDto.getEmail());
@@ -67,7 +67,7 @@ public class AuthController {
         Role roles = roleRepository.findByName("ROLE_ADMIN").get();
         user.setRoles(Collections.singleton(roles));
 
-        userRepository.save(user);
+        clientRepository.save(user);
         return new ResponseEntity<>("User registered successfully", HttpStatus.OK);
     }
 

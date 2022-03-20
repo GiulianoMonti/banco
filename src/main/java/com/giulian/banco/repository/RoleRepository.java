@@ -1,6 +1,5 @@
 package com.giulian.banco.repository;
 
-import com.g.springboot.entity.Role;
 import com.giulian.banco.model.Role;
 import org.springframework.data.jpa.repository.JpaRepository;
 
