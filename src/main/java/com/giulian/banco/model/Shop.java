@@ -23,7 +23,7 @@ public class Shop {
     private String code;
     private String name;
 
-    @OneToMany(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
-    private List<Product> productList;
+//    @OneToMany(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
+//    private List<Product> productList;
 
 }

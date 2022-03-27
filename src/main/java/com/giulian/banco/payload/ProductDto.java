@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import java.math.BigDecimal;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -19,7 +20,7 @@ public class ProductDto {
     @NotNull(message = "{error.empty}")
     private String name;
     @NotNull(message = "{error.empty}")
-    private Double price;
+    private BigDecimal price;
     @NotNull(message = "{error.empty}")
     private Integer stock;
 

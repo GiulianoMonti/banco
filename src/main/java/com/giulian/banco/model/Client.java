@@ -1,16 +1,21 @@
 package com.giulian.banco.model;
 
-import lombok.Data;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.*;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Set;
 
-@Data
+@Getter
+@Setter
 @Entity
 @Table(name = "clients", uniqueConstraints = {
         @UniqueConstraint(columnNames = {"username"}),
         @UniqueConstraint(columnNames = {"email"})
 })
+@AllArgsConstructor
+@NoArgsConstructor
 public class Client {
 
     @Id
@@ -21,6 +26,12 @@ public class Client {
     private String email;
     private String photo;
     private String password;
+
+//    @JsonIgnore
+//    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "client")
+//    private Set<Order> orders = new HashSet<>();
+
+
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(name = "user_roles",

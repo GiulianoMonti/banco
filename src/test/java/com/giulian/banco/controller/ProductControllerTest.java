@@ -14,6 +14,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -47,7 +48,7 @@ class ProductControllerTest {
         // given - precondition or setup
         Product product = Product.builder()
                 .name("first")
-                .price(11.0)
+                .price(new BigDecimal(11))
                 .stock(10)
                 .build();
 
@@ -75,12 +76,12 @@ class ProductControllerTest {
         List<ProductDto> listOfProducts = new ArrayList<>();
         listOfProducts.add(ProductDto.builder()
                 .name("prueba1")
-                .price(12.5)
+                .price(new BigDecimal(12.5))
                 .stock(1111)
                 .build());
         listOfProducts.add(ProductDto.builder()
                 .name("prueba2")
-                .price(1111.5)
+                .price(new BigDecimal(1111.5))
                 .stock(2222)
                 .build());
         given(productService.getAllProducts()).willReturn(listOfProducts);
@@ -100,12 +101,12 @@ class ProductControllerTest {
 
         ProductDto savedProduct = ProductDto.builder()
                 .name("prueba1")
-                .price(12.5)
+                .price(new BigDecimal(12.5))
                 .stock(1111)
                 .build();
         ProductDto updatedProduct = ProductDto.builder()
                 .name("updated name")
-                .price(123.5)
+                .price(new BigDecimal(123.5))
                 .stock(4444)
                 .build();
 

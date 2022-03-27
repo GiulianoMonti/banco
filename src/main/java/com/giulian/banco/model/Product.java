@@ -6,8 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.math.BigDecimal;
 
 
 @Entity
@@ -21,9 +20,10 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
-    private Double price;
+    private BigDecimal price;
     private Integer stock;
-    @ManyToOne(fetch= FetchType.LAZY)
-    @JoinColumn(name="product_id")
-    private Shop shop;
+
+//    @ManyToOne(fetch= FetchType.LAZY)
+//    @JoinColumn(name="shop_id")
+//    private Shop shop;
 }
