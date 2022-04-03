@@ -19,13 +19,15 @@ public class ShopProduct {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private Integer id;
+    private Long id;
     @ManyToOne
     @JoinColumn(name = "id_shop")
     private Shop shop;
     @ManyToOne
     @JoinColumn(name = "id_product")
     private Product product;
+
+
     @Column(name = "status")
     private Boolean status;
 }
