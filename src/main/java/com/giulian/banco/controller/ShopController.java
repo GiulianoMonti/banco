@@ -20,8 +20,6 @@ public class ShopController {
     public ResponseEntity<Shop> addShop(@RequestBody Shop shop) {
 
         Shop shops = shopService.createShop(shop);
-
-
         return new ResponseEntity<>(shops, HttpStatus.OK);
     }
 }

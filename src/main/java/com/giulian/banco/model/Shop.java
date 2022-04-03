@@ -6,13 +6,17 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@Table(name = "shops")
+
 public class Shop {
 
 
@@ -23,7 +27,12 @@ public class Shop {
     private String code;
     private String name;
 
-//    @OneToMany(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
-//    private List<Product> productList;
+//    @ManyToMany(cascade = {
+//            CascadeType.PERSIST,
+//            CascadeType.MERGE
+//    }, fetch = FetchType.EAGER,
+//            mappedBy = "shop")
+//    private Set<Product> shops = new HashSet<>();
+
 
 }

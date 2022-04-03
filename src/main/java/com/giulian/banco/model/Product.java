@@ -23,7 +23,15 @@ public class Product {
     private BigDecimal price;
     private Integer stock;
 
-//    @ManyToOne(fetch= FetchType.LAZY)
-//    @JoinColumn(name="shop_id")
+//    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+//    @JoinTable(
+//            name = "product_shop",
+//            joinColumns = @JoinColumn(
+//                    name = "product_id", referencedColumnName = "id"
+//            ),
+//            inverseJoinColumns = @JoinColumn(
+//                    name = "shop_id", referencedColumnName = "id"
+//            )
+//    )
 //    private Shop shop;
 }

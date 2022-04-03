@@ -18,7 +18,7 @@ public class ShopProduct {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "ID")
+    @Column(name = "id")
     private Integer id;
     @ManyToOne
     @JoinColumn(name = "id_shop")
@@ -27,5 +27,5 @@ public class ShopProduct {
     @JoinColumn(name = "id_product")
     private Product product;
     @Column(name = "status")
-    private Boolean estado;
+    private Boolean status;
 }
