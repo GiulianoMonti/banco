@@ -1,8 +1,8 @@
 package com.giulian.banco.service.impl;
 
+import com.giulian.banco.model.OrderItem;
 import com.giulian.banco.model.Product;
 import com.giulian.banco.model.Shop;
-import com.giulian.banco.model.ShopProduct;
 import com.giulian.banco.repository.ProductRepository;
 import com.giulian.banco.repository.ShopProductRepository;
 import com.giulian.banco.repository.ShopRepository;
@@ -10,8 +10,6 @@ import com.giulian.banco.service.IShopProductService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.Optional;
 
 @Slf4j
 @Service
@@ -33,9 +31,9 @@ public class ShopProductServiceImpl implements IShopProductService {
     }
 
 
-    public ShopProduct createShopProduct(Long shopId, Long productId) {
-        ShopProduct shopProduct =
-                new ShopProduct();
+    public OrderItem createShopProduct(Long shopId, Long productId) {
+        OrderItem shopProduct =
+                new OrderItem();
 
 
         Product product = productRepository.findById(productId)
@@ -44,12 +42,10 @@ public class ShopProductServiceImpl implements IShopProductService {
         Shop shop = shopRepository.findById(shopId)
                 .orElseThrow();
 
-
-
         shopProduct.setShop(shop);
         shopProduct.setProduct(product);
 
-    for(ShopProduct sp : shopProductRepository.findAll()){
+    for(OrderItem sp : shopProductRepository.findAll()){
         if(sp.getShop().getId().equals(shopId) && sp.getProduct().getId().equals(productId)){
             throw new RuntimeException("Product already exists in this shop");
         }
@@ -64,7 +60,7 @@ public class ShopProductServiceImpl implements IShopProductService {
 
 
 
-    private ShopProduct findByShopProduct(Shop shop, Product product) {
+    private OrderItem findByShopProduct(Shop shop, Product product) {
         return shopProductRepository.findByShopAndProduct(shop, product);
     }
 

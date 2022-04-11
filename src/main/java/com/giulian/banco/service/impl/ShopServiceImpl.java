@@ -1,8 +1,6 @@
 package com.giulian.banco.service.impl;
 
-import com.giulian.banco.model.Product;
 import com.giulian.banco.model.Shop;
-import com.giulian.banco.model.ShopProduct;
 import com.giulian.banco.repository.ProductRepository;
 import com.giulian.banco.repository.ShopRepository;
 import com.giulian.banco.service.IShopService;

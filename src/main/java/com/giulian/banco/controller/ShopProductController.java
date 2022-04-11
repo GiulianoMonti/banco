@@ -1,6 +1,6 @@
 package com.giulian.banco.controller;
 
-import com.giulian.banco.model.ShopProduct;
+import com.giulian.banco.model.OrderItem;
 import com.giulian.banco.service.IProductService;
 import com.giulian.banco.service.IShopProductService;
 import com.giulian.banco.service.IShopService;
@@ -26,10 +26,10 @@ public class ShopProductController {
     }
 
     @PostMapping("/create/{shopId}/{productId}")
-    private ShopProduct createShopProducts(
+    private OrderItem createShopProducts(
             @PathVariable("shopId") Long shopId,
             @PathVariable("productId") Long productId) {
-       ShopProduct shopProducts =
+        OrderItem shopProducts =
                shopProductService.createShopProduct(shopId, productId);
 
        return shopProducts;
