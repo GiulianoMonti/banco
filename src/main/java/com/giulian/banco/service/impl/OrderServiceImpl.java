@@ -43,7 +43,36 @@ public class OrderServiceImpl implements IOrderService {
     @Transactional
     public Purchase placeOrder(Purchase purchase) {
 
+        Client client =
+                clientRepository.findById
+                        (purchase.getClientIdentification()).orElseThrow();
+        purchase.setClient(client);
 
+
+        Order order = new Order();
+        order.setClient(purchase.getClient());
+        order.setOrderTrackingNumber("123L");
+        order = save(order);
+
+        purchase.setOrderId(order.getId());
+        Order finalOrder = order;
+        purchase.getOrderDetailClients().forEach(dp -> {
+            OrderItem orderItem = dp.getOrderItem();
+
+//            verificarAgregarStock(tiendaProductos.getProducto(), dp.getCantidad());
+//            restarStock(tiendaProductos.getProducto(), dp.getCantidad());
+
+            OrderDetail orderDetail = new OrderDetail();
+            orderDetail.setOrder(finalOrder);
+            orderDetail.setQuantity(dp.getQuantity());
+            orderDetail.setOrderItem(orderItem);
+            orderDetailRepository.save(orderDetail);
+
+//            tiendaTransaccionService.registoMovimientoTienda
+//                    (pedidoCliente.getCliente(), tiendaProductos.getTienda(),
+//                            tiendaProductos.getProducto(), dp.getCantidad());
+        });
+        return purchase;
 
     }
 

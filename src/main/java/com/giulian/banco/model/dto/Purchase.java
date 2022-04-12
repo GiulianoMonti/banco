@@ -13,9 +13,9 @@ import java.util.List;
 @Builder
 public class Purchase {
 
-//    private Long clientIdentification;
+    private Long clientIdentification;
     private Client client;
     private List<OrderDetailClient> orderDetailClients;
-//    private Long orderId;
-//    private String message;
+    private Long orderId;
+    private String message;
 }
