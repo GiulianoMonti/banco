@@ -2,7 +2,6 @@ package com.giulian.banco.service.impl;
 
 import com.giulian.banco.model.*;
 import com.giulian.banco.model.dto.Purchase;
-import com.giulian.banco.model.dto.PurchaseResponse;
 import com.giulian.banco.repository.ClientRepository;
 import com.giulian.banco.repository.OrderDetailRepository;
 import com.giulian.banco.repository.OrderRepository;
@@ -11,8 +10,6 @@ import com.giulian.banco.service.IOrderService;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.Set;
-import java.util.UUID;
 
 @Service
 public class OrderServiceImpl implements IOrderService {
@@ -23,13 +20,14 @@ public class OrderServiceImpl implements IOrderService {
 
     private IOrderDetailService orderDetailService;
     private OrderDetailRepository orderDetailRepository;
-    private ClientRepository clientRepository;
+    private final ClientRepository clientRepository;
 
     public OrderServiceImpl(OrderRepository orderRepository,
 
 
-                            ClientRepository clientRepository) {
+                            OrderDetailRepository orderDetailRepository, ClientRepository clientRepository) {
         this.orderRepository = orderRepository;
+        this.orderDetailRepository = orderDetailRepository;
 //        this.orderDetailService = orderDetailService;
 //        this.orderDetailRepository = orderDetailRepository;
         this.clientRepository = clientRepository;
@@ -45,18 +43,21 @@ public class OrderServiceImpl implements IOrderService {
 
         Client client =
                 clientRepository.findById
-                        (purchase.getClientIdentification()).orElseThrow();
+                        (purchase.getClientId()).orElseThrow();
         purchase.setClient(client);
 
 
         Order order = new Order();
         order.setClient(purchase.getClient());
-        order.setOrderTrackingNumber("123L");
+        order.setOrderTrackingNumber("1234L");
         order = save(order);
 
         purchase.setOrderId(order.getId());
+
         Order finalOrder = order;
+
         purchase.getOrderDetailClients().forEach(dp -> {
+
             OrderItem orderItem = dp.getOrderItem();
 
 //            verificarAgregarStock(tiendaProductos.getProducto(), dp.getCantidad());

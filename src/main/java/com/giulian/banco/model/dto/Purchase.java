@@ -13,7 +13,7 @@ import java.util.List;
 @Builder
 public class Purchase {
 
-    private Long clientIdentification;
+    private Long clientId;
     private Client client;
     private List<OrderDetailClient> orderDetailClients;
     private Long orderId;
