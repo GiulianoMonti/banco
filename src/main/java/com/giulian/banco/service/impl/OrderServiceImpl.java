@@ -58,7 +58,7 @@ public class OrderServiceImpl implements IOrderService {
 
         purchase.getOrderDetailClients().forEach(dp -> {
 
-            OrderItem orderItem = dp.getOrderItem();
+            ShopProduct shopProduct = dp.getShopProduct();
 
 //            verificarAgregarStock(tiendaProductos.getProducto(), dp.getCantidad());
 //            restarStock(tiendaProductos.getProducto(), dp.getCantidad());
@@ -66,7 +66,7 @@ public class OrderServiceImpl implements IOrderService {
             OrderDetail orderDetail = new OrderDetail();
             orderDetail.setOrder(finalOrder);
             orderDetail.setQuantity(dp.getQuantity());
-            orderDetail.setOrderItem(orderItem);
+            orderDetail.setShopProduct(shopProduct);
             orderDetailRepository.save(orderDetail);
 
 //            tiendaTransaccionService.registoMovimientoTienda

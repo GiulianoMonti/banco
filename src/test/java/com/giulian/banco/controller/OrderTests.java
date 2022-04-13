@@ -3,7 +3,7 @@
 //import com.giulian.banco.model.Address;
 //import com.giulian.banco.model.Client;
 //import com.giulian.banco.model.Order;
-//import com.giulian.banco.model.OrderItem;
+//import com.giulian.banco.model.ShopProduct;
 //import com.giulian.banco.repository.ClientRepository;
 //import com.giulian.banco.repository.OrderRepository;
 //import com.giulian.banco.repository.ProductRepository;
@@ -37,7 +37,7 @@
 //        order.setStatus("In progress");
 //
 //        // create order item 1
-//        OrderItem orderItem1 = new OrderItem();
+//        ShopProduct orderItem1 = new ShopProduct();
 //        orderItem1.setProduct(productRepository.findById(1L).get());
 //        orderItem1.setQuantity(2);
 //        orderItem1.setPrice(orderItem1.getProduct().getPrice().multiply(new BigDecimal(2)));
@@ -46,7 +46,7 @@
 //        order.getOrderItems().add(orderItem1);
 //
 //        // create order item 2
-//        OrderItem orderItem2 = new OrderItem();
+//        ShopProduct orderItem2 = new ShopProduct();
 //        orderItem2.setProduct(productRepository.findById(2L).get());
 //        orderItem2.setQuantity(3);
 //        orderItem2.setPrice(orderItem2.getProduct().getPrice().multiply(new BigDecimal(3)));

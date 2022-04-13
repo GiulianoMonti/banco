@@ -1,8 +1,8 @@
 package com.giulian.banco.service;
 
-import com.giulian.banco.model.OrderItem;
+import com.giulian.banco.model.ShopProduct;
 
 public interface IShopProductService {
 
-   OrderItem createShopProduct(Long shopId, Long productId);
+   ShopProduct createShopProduct(Long shopId, Long productId);
 }

@@ -1,6 +1,6 @@
 package com.giulian.banco.service.impl;
 
-import com.giulian.banco.model.OrderItem;
+import com.giulian.banco.model.ShopProduct;
 import com.giulian.banco.model.Product;
 import com.giulian.banco.model.Shop;
 import com.giulian.banco.repository.ProductRepository;
@@ -31,9 +31,9 @@ public class ShopProductServiceImpl implements IShopProductService {
     }
 
 
-    public OrderItem createShopProduct(Long shopId, Long productId) {
-        OrderItem shopProduct =
-                new OrderItem();
+    public ShopProduct createShopProduct(Long shopId, Long productId) {
+        ShopProduct shopProduct =
+                new ShopProduct();
 
 
         Product product = productRepository.findById(productId)
@@ -45,7 +45,7 @@ public class ShopProductServiceImpl implements IShopProductService {
         shopProduct.setShop(shop);
         shopProduct.setProduct(product);
 
-    for(OrderItem sp : shopProductRepository.findAll()){
+    for(ShopProduct sp : shopProductRepository.findAll()){
         if(sp.getShop().getId().equals(shopId) && sp.getProduct().getId().equals(productId)){
             throw new RuntimeException("Product already exists in this shop");
         }
@@ -60,7 +60,7 @@ public class ShopProductServiceImpl implements IShopProductService {
 
 
 
-    private OrderItem findByShopProduct(Shop shop, Product product) {
+    private ShopProduct findByShopProduct(Shop shop, Product product) {
         return shopProductRepository.findByShopAndProduct(shop, product);
     }
 

@@ -1,6 +1,6 @@
 package com.giulian.banco.model.dto;
 
-import com.giulian.banco.model.OrderItem;
+import com.giulian.banco.model.ShopProduct;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -10,7 +10,7 @@ public class OrderDetailClient {
 
     private String shopCode;
     private String productCode;
-    private OrderItem orderItem;
+    private ShopProduct shopProduct;
     private Long quantity;
 
 }
