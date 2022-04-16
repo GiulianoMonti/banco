@@ -1,11 +1,10 @@
 package com.giulian.banco.service;
 
-import com.giulian.banco.model.dto.Purchase;
-import com.giulian.banco.model.dto.PurchaseResponse;
+import com.giulian.banco.model.Purchase;
 
 import javax.transaction.Transactional;
+import java.util.List;
 
 public interface IOrderService {
-    @Transactional
-    Purchase placeOrder(Purchase purchase);
+    List<Purchase> save(List<Purchase> purchase);
 }

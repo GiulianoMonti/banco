@@ -20,7 +20,7 @@ public class ProductDto {
     @NotNull(message = "{error.empty}")
     private String name;
     @NotNull(message = "{error.empty}")
-    private BigDecimal price;
+    private Double price;
     @NotNull(message = "{error.empty}")
     private Integer stock;
 

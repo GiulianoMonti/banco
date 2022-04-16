@@ -10,7 +10,7 @@ import java.util.Set;
 @Getter
 @Setter
 @Entity
-@Table(name = "clients", uniqueConstraints = {
+@Table(name = "client", uniqueConstraints = {
         @UniqueConstraint(columnNames = {"username"}),
         @UniqueConstraint(columnNames = {"email"})
 })
