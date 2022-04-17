@@ -1,10 +1,9 @@
 package com.giulian.banco.service.impl;
 
-import com.giulian.banco.dao.IOrderDao;
+import com.giulian.banco.exception.ResourceNotFoundException;
 import com.giulian.banco.model.*;
 import com.giulian.banco.repository.*;
 import com.giulian.banco.service.IOrderService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -22,8 +21,7 @@ public class OrderServiceImpl implements IOrderService {
     private final ClientRepository clientRepository;
 
     private final ShopRepository shopRepository;
-    @Autowired
-    IOrderDao dao;
+
 
     public OrderServiceImpl(OrderRepository orderRepository,
                             ProductRepository productRepository,
@@ -53,22 +51,30 @@ public class OrderServiceImpl implements IOrderService {
 
 
                             map(detail -> {
-                                Product productDb =
+                                Product db =
                                         productRepository.findById(
                                                 detail.getProduct().getId()).get();
 
-                                detail.setTotal(productDb.getPrice() * detail.getQuantity());
-                                detail.setProduct(productDb);
+                                detail.setTotal(db.getPrice() * detail.getQuantity());
+                                detail.setProduct(db);
                                 detail.setPurchase(order);
-//                                stockVerification(productDb, detail.getQuantity());
+                                checkStock(db, detail.getQuantity());
                                 return detail;
                             }).collect(Collectors.toList());
                     order.setClient(clientModel);
                     order.setShop(shopModel);
                     order.setTotal(details.stream().mapToDouble(PurchaseDetail::getTotal).sum());
-                    return dao.saveAndFlush(order);
+                    return orderRepository.saveAndFlush(order);
                 }).collect(Collectors.toList());
 
+    }
+
+    private Product checkStock(Product db, int quantity) {
+        Integer stock = db.getStock()-quantity;
+
+        return productRepository.findById(db.getId()).map(product -> {product.setStock(stock);
+            return this.productRepository.save(product);
+        }).orElseThrow();
     }
 }
 
