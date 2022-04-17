@@ -4,10 +4,7 @@ import com.giulian.banco.model.Purchase;
 import com.giulian.banco.service.IOrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 import java.util.List;
@@ -35,5 +32,17 @@ public class OrderController {
                 .created(
                         URI.create(String.format("/arrangements/")))
                 .body(purchaseProcess);
+    }
+
+    @GetMapping
+    public ResponseEntity<List<?>> findAll() {
+        List<?> list = orderService.findAll();
+        return ResponseEntity.ok().body(list);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Purchase> findById(@PathVariable Long id) {
+        Purchase purchase = orderService.findById(id);
+        return ResponseEntity.ok().body(purchase);
     }
 }

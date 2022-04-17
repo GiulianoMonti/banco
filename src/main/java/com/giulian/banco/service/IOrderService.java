@@ -6,5 +6,9 @@ import javax.transaction.Transactional;
 import java.util.List;
 
 public interface IOrderService {
+    List<Purchase> findAll();
+
+    Purchase findById(Long id);
+
     List<Purchase> save(List<Purchase> purchase);
 }

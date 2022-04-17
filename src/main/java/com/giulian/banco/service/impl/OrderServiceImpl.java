@@ -3,12 +3,14 @@ package com.giulian.banco.service.impl;
 import com.giulian.banco.model.*;
 import com.giulian.banco.repository.*;
 import com.giulian.banco.service.IOrderService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@Slf4j
 public class OrderServiceImpl implements IOrderService {
     /*TODO Un Cliente puede realizar pedidos de uno
        varios productos a una/varias tiendas al mismo tiempo
@@ -18,10 +20,12 @@ public class OrderServiceImpl implements IOrderService {
     private final ShopProductRepository shopProductRepository;
 
     private final ProductRepository productRepository;
-    private final PurchaseDetailRepository orderDetailRepository;
+    private final PurchaseDetailRepository purchaseDetailRepository;
     private final ClientRepository clientRepository;
 
     private final ShopRepository shopRepository;
+
+
 
 
     public OrderServiceImpl(OrderRepository orderRepository,
@@ -32,10 +36,23 @@ public class OrderServiceImpl implements IOrderService {
         this.orderRepository = orderRepository;
         this.shopProductRepository = shopProductRepository;
         this.productRepository = productRepository;
-        this.orderDetailRepository = orderDetailRepository;
+        this.purchaseDetailRepository = orderDetailRepository;
         this.clientRepository = clientRepository;
         this.shopRepository = shopRepository;
     }
+
+
+    @Override
+    public List<Purchase> findAll() {
+        return orderRepository.findAll();
+    }
+
+    @Override
+    public Purchase findById(Long id) {
+        return orderRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("inventory no found."));
+    }
+
 
     public List<Purchase> save(List<Purchase> purchase) {
 
@@ -62,7 +79,7 @@ public class OrderServiceImpl implements IOrderService {
                                 detail.setPurchase(order);
                                 detail.setShop(dbShop);
 
-                                checkStock(db, detail.getQuantity(),dbShop);
+                                checkStock(db, detail.getQuantity(), dbShop);
                                 return detail;
                             }).collect(Collectors.toList());
                     order.setClient(clientModel);
@@ -72,67 +89,24 @@ public class OrderServiceImpl implements IOrderService {
 
     }
 
-    private Product checkStock(Product dbProduct, int quantity,Shop dbShop) {
+    private Product checkStock(Product dbProduct, int quantity, Shop dbShop) {
 
-       ShopProduct dbShopProductRepository =
-               shopProductRepository.findByShopAndProduct(dbShop, dbProduct)
-                       .orElseThrow(() -> new RuntimeException("No se encontro el producto" +
-                               "en el shop elegido"));
+        ShopProduct dbShopProductRepository =
+                shopProductRepository.findByShopAndProduct(dbShop, dbProduct)
+                        .orElseThrow(() -> new RuntimeException("No se encontro el producto" +
+                                "en el shop elegido"));
 
 
-        Integer st = dbShopProductRepository.getProduct().getStock()-quantity;
+        log.info("Stock actual: " + dbShopProductRepository.getProduct().getStock());
+
+        Integer st = dbShopProductRepository.getProduct().getStock() - quantity;
 //        Integer stock = dbProduct.getStock()-quantity;
 
         return productRepository.findById(dbProduct.getId())
-                .map(product -> {product.setStock(st);
+                .map(product -> {
+                    product.setStock(st);
 
-            return this.productRepository.save(product);
-        }).orElseThrow();
+                    return this.productRepository.save(product);
+                }).orElseThrow();
     }
 }
-
-
-//    public Order save(Order order) {
-//        return orderRepository.save(order);
-//    }
-//
-//    @Override
-//    @Transactional
-//    public Purchase placeOrder(Purchase purchase) {
-//
-//        Client client =
-//                clientRepository.findById
-//                        (purchase.getClientId()).orElseThrow();
-//        purchase.setClient(client);
-//
-//
-//        Order order = new Order();
-//        order.setClient(purchase.getClient());
-//        order.setOrderTrackingNumber("1234L");
-//        order = save(order);
-//
-//        purchase.setOrderId(order.getId());
-//
-//        Order finalOrder = order;
-//
-//        purchase.getOrderDetailClients().forEach(dp -> {
-//
-//            ShopProduct shopProduct = dp.getShopProduct();
-//
-////            verificarAgregarStock(tiendaProductos.getProducto(), dp.getCantidad());
-////            restarStock(tiendaProductos.getProducto(), dp.getCantidad());
-//
-//            PurchaseDetail orderDetail = new PurchaseDetail();
-//            orderDetail.setOrder(finalOrder);
-//            orderDetail.setQuantity(dp.getQuantity());
-//            orderDetail.setShopProduct(shopProduct);
-//            orderDetailRepository.save(orderDetail);
-//
-////            tiendaTransaccionService.registoMovimientoTienda
-////                    (pedidoCliente.getCliente(), tiendaProductos.getTienda(),
-////                            tiendaProductos.getProducto(), dp.getCantidad());
-//        });
-//        return purchase;
-//
-//    }
-
