@@ -54,7 +54,8 @@ public class OrderServiceImpl implements IOrderService {
 
                             map(detail -> {
                                 Product productDb =
-                                        productRepository.findById(detail.getProduct().getId()).get();
+                                        productRepository.findById(
+                                                detail.getProduct().getId()).get();
 
                                 detail.setTotal(productDb.getPrice() * detail.getQuantity());
                                 detail.setProduct(productDb);

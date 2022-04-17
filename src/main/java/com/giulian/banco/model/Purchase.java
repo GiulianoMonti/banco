@@ -3,6 +3,9 @@ package com.giulian.banco.model;
 import lombok.*;
 
 import javax.persistence.*;
+import java.io.Serializable;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 
@@ -10,9 +13,9 @@ import java.util.List;
 @Setter
 @Entity
 @AllArgsConstructor
-@NoArgsConstructor
 @Builder
-public class Purchase {
+@Table(name = "purchase")
+public class Purchase implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,11 +29,20 @@ public class Purchase {
     @OneToOne
     @JoinColumn(name = "shop_id", referencedColumnName = "id")
     private Shop shop;
+
     @OneToMany(cascade = CascadeType.ALL,
             fetch = FetchType.EAGER, targetEntity = PurchaseDetail.class,
             mappedBy = "purchase", orphanRemoval = true)
     private List<PurchaseDetail> details;
 
-    private Long orderId;
-    private String message;
+    public Purchase(Client client, Double total, Shop shop, List details) {
+        this.client = client;
+        this.total = total;
+        this.shop = shop;
+        this.details = details;
+    }
+
+    public Purchase(){
+
+    }
 }
