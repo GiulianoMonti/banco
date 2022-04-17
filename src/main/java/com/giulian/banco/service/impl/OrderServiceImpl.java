@@ -1,6 +1,5 @@
 package com.giulian.banco.service.impl;
 
-import com.giulian.banco.exception.ResourceNotFoundException;
 import com.giulian.banco.model.*;
 import com.giulian.banco.repository.*;
 import com.giulian.banco.service.IOrderService;
@@ -16,6 +15,8 @@ public class OrderServiceImpl implements IOrderService {
        (cree el/los servicios necesarios para esto)*/
     private final OrderRepository orderRepository;
 
+    private final ShopProductRepository shopProductRepository;
+
     private final ProductRepository productRepository;
     private final PurchaseDetailRepository orderDetailRepository;
     private final ClientRepository clientRepository;
@@ -24,11 +25,12 @@ public class OrderServiceImpl implements IOrderService {
 
 
     public OrderServiceImpl(OrderRepository orderRepository,
-                            ProductRepository productRepository,
+                            ShopProductRepository shopProductRepository, ProductRepository productRepository,
                             PurchaseDetailRepository orderDetailRepository,
                             ClientRepository clientRepository,
                             ShopRepository shopRepository) {
         this.orderRepository = orderRepository;
+        this.shopProductRepository = shopProductRepository;
         this.productRepository = productRepository;
         this.orderDetailRepository = orderDetailRepository;
         this.clientRepository = clientRepository;
@@ -44,9 +46,6 @@ public class OrderServiceImpl implements IOrderService {
                                     ((order.getClient()
                                             .getUsername())).get();
 
-                    Shop shopModel =
-                            shopRepository.findById(order.getShop().getId()).get();
-
                     List<PurchaseDetail> details = order.getDetails().stream().
 
 
@@ -54,25 +53,39 @@ public class OrderServiceImpl implements IOrderService {
                                 Product db =
                                         productRepository.findById(
                                                 detail.getProduct().getId()).get();
+                                Shop dbShop =
+                                        shopRepository.findById(
+                                                detail.getShop().getId()).get();
 
                                 detail.setTotal(db.getPrice() * detail.getQuantity());
                                 detail.setProduct(db);
                                 detail.setPurchase(order);
-                                checkStock(db, detail.getQuantity());
+                                detail.setShop(dbShop);
+
+                                checkStock(db, detail.getQuantity(),dbShop);
                                 return detail;
                             }).collect(Collectors.toList());
                     order.setClient(clientModel);
-                    order.setShop(shopModel);
                     order.setTotal(details.stream().mapToDouble(PurchaseDetail::getTotal).sum());
                     return orderRepository.saveAndFlush(order);
                 }).collect(Collectors.toList());
 
     }
 
-    private Product checkStock(Product db, int quantity) {
-        Integer stock = db.getStock()-quantity;
+    private Product checkStock(Product dbProduct, int quantity,Shop dbShop) {
 
-        return productRepository.findById(db.getId()).map(product -> {product.setStock(stock);
+       ShopProduct dbShopProductRepository =
+               shopProductRepository.findByShopAndProduct(dbShop, dbProduct)
+                       .orElseThrow(() -> new RuntimeException("No se encontro el producto" +
+                               "en el shop elegido"));
+
+
+        Integer st = dbShopProductRepository.getProduct().getStock()-quantity;
+//        Integer stock = dbProduct.getStock()-quantity;
+
+        return productRepository.findById(dbProduct.getId())
+                .map(product -> {product.setStock(st);
+
             return this.productRepository.save(product);
         }).orElseThrow();
     }

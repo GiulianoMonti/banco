@@ -31,5 +31,7 @@ public class PurchaseDetail implements Serializable {
     @OneToOne
     @JoinColumn(name = "product_id", referencedColumnName = "id")
     private Product product;
-
+    @OneToOne
+    @JoinColumn(name = "shop_id", referencedColumnName = "id")
+    private Shop shop;
 }

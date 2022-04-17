@@ -26,19 +26,16 @@ public class Purchase implements Serializable {
     private Client client;
     private Double total;
 
-    @OneToOne
-    @JoinColumn(name = "shop_id", referencedColumnName = "id")
-    private Shop shop;
+
 
     @OneToMany(cascade = CascadeType.ALL,
             fetch = FetchType.EAGER, targetEntity = PurchaseDetail.class,
             mappedBy = "purchase", orphanRemoval = true)
     private List<PurchaseDetail> details;
 
-    public Purchase(Client client, Double total, Shop shop, List details) {
+    public Purchase(Client client, Double total, List details) {
         this.client = client;
         this.total = total;
-        this.shop = shop;
         this.details = details;
     }
 
